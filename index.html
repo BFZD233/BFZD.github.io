@@ -146,6 +146,89 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://bfzd233.github.io/2022/11/25/resnet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="BFZD">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="BFZD's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/11/25/resnet/" class="post-title-link" itemprop="url">ResNet</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-11-25 10:10:48 / 修改时间：10:48:19" itemprop="dateCreated datePublished" datetime="2022-11-25T10:10:48+08:00">2022-11-25</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="deep-residual-learning-for-image-recognition"><a class="markdownIt-Anchor" href="#deep-residual-learning-for-image-recognition"></a> Deep Residual Learning for Image Recognition</h2>
+<h3 id="研究动机"><a class="markdownIt-Anchor" href="#研究动机"></a> 研究动机</h3>
+<p>​	<img src="/2022/11/25/resnet/image-20221125101416389.png" class="" title="image-20221125101416389"></p>
+<p>​	如上图所示，单纯的堆叠卷积层有时候并不能取得更好的效果，比如上图中56层的卷积网络比20层的卷积网络在训练集和测试集上的error更多了。</p>
+<p>​	因为梯度消失和梯度爆炸的原因，阻碍了网络的收敛，该问题通过加入了中间层的正则化有所缓解，但是随着网络的深入，导至网络不按照预期进行收敛。并且该问题不是因为网络的过拟合产生的，仅仅堆叠网络层数并不能解决。</p>
+<p>​	作者提出了残差网络，来解决该问题。</p>
+<h3 id="网络模型"><a class="markdownIt-Anchor" href="#网络模型"></a> 网络模型</h3>
+<h4 id="残差模块"><a class="markdownIt-Anchor" href="#残差模块"></a> 残差模块</h4>
+<p>​	假设网络学习的拟合目标是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="script">H</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathcal{H}(x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.00965em;">H</span></span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span></span></span></span>。我们改变非线性层转而去拟合一个新的函数：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="script">F</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>:</mo><mo>=</mo><mi mathvariant="script">H</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>−</mo><mi>x</mi></mrow><annotation encoding="application/x-tex">\mathcal{F}(x) :=\mathcal{H}(x)-x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.09931em;">F</span></span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">:</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.00965em;">H</span></span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span>。<br />
+​	原始的映射<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="script">H</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>:</mo><mo>=</mo><mi mathvariant="script">F</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>+</mo><mi>x</mi></mrow><annotation encoding="application/x-tex">\mathcal{H}(x):=\mathcal{F}(x)+x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.00965em;">H</span></span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">:</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.09931em;">F</span></span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span>。相比于原始的映射，这种新的映射更容易去学习。</p>
+<img src="/2022/11/25/resnet/48b294646fd74e48b25655484f4425af.png" class="" title="在这里插入图片描述">
+<p>因为残差的引入，导至随着网络的叠加，深层的网络不会出现梯度过小而产生的训练不动的问题。</p>
+<h4 id="模块实现"><a class="markdownIt-Anchor" href="#模块实现"></a> 模块实现</h4>
+<p>​	<img src="/2022/11/25/resnet/image-20221125104000976.png" class="" title="image-20221125104000976"></p>
+<p>​	如上图所示，残差模块实际上就是在input进入前，引一条边到output，进行相加，这个操作叫做<strong>Shortcut Connections</strong>。</p>
+<p>​</p>
+<img src="/2022/11/25/resnet/image-20221125104130203.png" class="" title="image-20221125104130203">
+<p>​	实线的连接表示的是两个层之间的通道数相同，虚线连接表示的是两层之间通道数不同。该通道数可以通过<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>×</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">1\times 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>的卷积核来处理。</p>
+<img src="/2022/11/25/resnet/a86180931c2f429c9a9af5155fdecf3d.png" class="" title="在这里插入图片描述">
+<p>左图在论文中成为BasicBlock，右图称为Bottleneck，通过有图这种通道数的变换，可以有效的降低运算复杂度。</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>×</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">1 \times 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>卷积核可以参考该文章https://blog.csdn.net/u014665013/article/details/81985082</p>
+<h3 id="代码"><a class="markdownIt-Anchor" href="#代码"></a> 代码</h3>
+<blockquote>
+<p>先摸了</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://bfzd233.github.io/2022/11/24/efficientnet/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -169,10 +252,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-11-24 11:14:51 / 修改时间：16:39:32" itemprop="dateCreated datePublished" datetime="2022-11-24T11:14:51+08:00">2022-11-24</time>
+              <time title="创建时间：2022-11-24 11:14:51" itemprop="dateCreated datePublished" datetime="2022-11-24T11:14:51+08:00">2022-11-24</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-11-25 10:08:52" itemprop="dateModified" datetime="2022-11-25T10:08:52+08:00">2022-11-25</time>
+              </span>
 
           
 
@@ -187,7 +276,7 @@
       
           <h2 id="efficientnet-rethinking-model-scaling-for-convolutional-neural-networks"><a class="markdownIt-Anchor" href="#efficientnet-rethinking-model-scaling-for-convolutional-neural-networks"></a> EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks</h2>
 <h3 id="研究动机"><a class="markdownIt-Anchor" href="#研究动机"></a> 研究动机</h3>
-<p>​	针对卷积神经网络的缩放一直以来都背广泛应用，并且取得了不错的成绩。但是现有的网络缩放仅仅是针对网络宽度、网络深度、图片大小其中之一来进行的。针对两个或三个维度的任意的修改需要大量的调参，而且通常很难优化准确率和效率。</p>
+<p>​	针对卷积神经网络的缩放技术一直以来都被广泛应用，并且取得了不错的成绩。但是现有的网络缩放仅仅是针对网络宽度、网络深度、图片大小其中之一来进行的。针对两个或三个维度的任意的修改需要大量的调参，而且通常很难优化准确率和效率。</p>
 <p>​	另一方面现有的卷积神经网络可以通过堆叠参数来达到较高的准确率，但是在很多应用场景下(比如手机端的应用)并不需要很高的准确度，而是需要交高的效率。针对大型网络的深度、宽度调整通常来说会需要非常大的设计时间和调整成本。</p>
 <p>​	本文想探究一种规律的方法去同时缩放网络宽度、网络深度、图片分辨率三个维度，来达到一个更好的准确度和效率。</p>
 <h3 id="思路分析"><a class="markdownIt-Anchor" href="#思路分析"></a> 思路分析</h3>
@@ -278,7 +367,7 @@ s.t.  \  \alpha * \beta ^ 2 * \gamma^2 \approx 2\\
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-24 11:13:52" itemprop="dateModified" datetime="2022-11-24T11:13:52+08:00">2022-11-24</time>
+                <time title="修改时间：2022-11-25 10:48:17" itemprop="dateModified" datetime="2022-11-25T10:48:17+08:00">2022-11-25</time>
               </span>
 
           
@@ -345,6 +434,9 @@ PE_{(pos,2i+1)}=cos(pos/10000^{2i/d_{model}})
 <p>pos是位置，i是维度</p>
 </blockquote>
 <h3 id="源码"><a class="markdownIt-Anchor" href="#源码"></a> 源码</h3>
+<blockquote>
+<p>先摸了</p>
+</blockquote>
 
       
     </div>
@@ -497,7 +589,7 @@ PE_{(pos,2i+1)}=cos(pos/10000^{2i/d_{model}})
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
