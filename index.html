@@ -146,6 +146,101 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://bfzd233.github.io/2022/12/19/physicalpatches/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="BFZD">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="BFZD's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/12/19/physicalpatches/" class="post-title-link" itemprop="url">PhysicalPatches</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-12-19 17:05:26 / 修改时间：21:37:25" itemprop="dateCreated datePublished" datetime="2022-12-19T17:05:26+08:00">2022-12-19</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="physical-attack-on-monocular-depth-estimation-with-optimal-adversarial-patches"><a class="markdownIt-Anchor" href="#physical-attack-on-monocular-depth-estimation-with-optimal-adversarial-patches"></a> Physical Attack on Monocular Depth Estimation with Optimal Adversarial Patches</h2>
+<h4 id="研究动机"><a class="markdownIt-Anchor" href="#研究动机"></a> 研究动机</h4>
+<p>​	现有的针对MDE的adversarial attack方法分为digital和pysical两个方面的。</p>
+<img src="/2022/12/19/physicalpatches/image-20221219210911287.png" class="" title="image-20221219210911287">
+<p>​	数字层面通常是对像素点添加扰动，这样的攻击肉眼难以分辨，但是现实中的操作性不大。物理层面是针对真实的物理物体，通常是通过添加对抗性补丁的方式。</p>
+<img src="/2022/12/19/physicalpatches/image-20221219211420894.png" class="" title="image-20221219211420894">
+<p>​	与数字层面相比，真实世界的攻击因为攻击需要对多样的摄象与几何变换具有鲁棒性的扰动，并且隐秘性较低。本文提出一个隐秘的针对MDE的真实世界攻击方式，并且提出了一个针对目标物体的隐秘、高效、鲁棒的真实物体的对抗性补丁的优化框架。并且在多个下游感知任务和多个训练集里进行了实验。</p>
+<h4 id="网络模型"><a class="markdownIt-Anchor" href="#网络模型"></a> 网络模型</h4>
+<p>​	<img src="/2022/12/19/physicalpatches/image-20221219211841605.png" class="" title="image-20221219211841605"></p>
+<p>​		首先通过风格变换处理patch，接着和Patch Mask融合，两者综合到攻击对象上，最后将攻击对象与随机场景融合。</p>
+<h5 id="adversarial-perturbation-generation"><a class="markdownIt-Anchor" href="#adversarial-perturbation-generation"></a> Adversarial Perturbation Generation</h5>
+<p>​		patch与图像的拼接操作如下：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>O</mi><msup><mrow></mrow><mo mathvariant="normal">′</mo></msup></msup><mo>=</mo><mi>O</mi><mo>⨀</mo><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><msub><mi>m</mi><mi>p</mi></msub><mo stretchy="false">)</mo><mo>+</mo><msup><mi>x</mi><msup><mrow></mrow><mo mathvariant="normal">′</mo></msup></msup><mo>⨀</mo><msub><mi>m</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">O^{&#x27;} = O \bigodot(1-m_p)+x^{&#x27;}\bigodot m_p
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.99248em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.99248em;"><span style="top:-2.99248em;margin-right:0.05em;"><span class="pstrut" style="height:2.57948em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8278285714285715em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.6000100000000002em;vertical-align:-0.55001em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop op-symbol large-op" style="position:relative;top:-0.000004999999999977245em;">⨀</span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.6000100000000002em;vertical-align:-0.55001em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.99248em;"><span style="top:-2.99248em;margin-right:0.05em;"><span class="pstrut" style="height:2.57948em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8278285714285715em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop op-symbol large-op" style="position:relative;top:-0.000004999999999977245em;">⨀</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span></span></p>
+<p>​		为了增强攻击的鲁棒性，实施了Expectation of Transofrmation，来随机改变目标的大小、旋转方向、明亮程度、饱和度。目标的水平位置是随机的，但是高度位置通过如下的公式进行计算：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mo>=</mo><mo>−</mo><mfrac><mi>h</mi><mi>H</mi></mfrac><mi>s</mi><mo>+</mo><mfrac><mi>f</mi><mrow><mi>t</mi><mi>a</mi><mi>n</mi><mtext> </mtext><mi>α</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">d=-\frac{h}{H}s+\frac{f}{tan\ {\alpha}}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.05744em;vertical-align:-0.686em;"></span><span class="mord">−</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.37144em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.08125em;">H</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">h</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord mathdefault">s</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:2.0574399999999997em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714399999999998em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">t</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mspace"> </span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<img src="/2022/12/19/physicalpatches/image-20221219213204140.png" class="" title="image-20221219213204140">
+<p>​		最后生成的图像就是：</p>
+<p>​</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mi>R</mi><mi>t</mi><mo mathvariant="normal">′</mo></msubsup><mo>=</mo><msub><mi mathvariant="normal">Λ</mi><mi>t</mi></msub><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">(</mo><msup><mi>O</mi><mo mathvariant="normal">′</mo></msup><mo>⨀</mo><msub><mi>m</mi><mi>o</mi></msub><mo stretchy="false">)</mo><mo separator="true">,</mo><mi>R</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">R&#x27;_t = Λ_t(t(O&#x27;\bigodot m_o), R)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.048892em;vertical-align:-0.247em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8018919999999999em;"><span style="top:-2.4530000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">t</span></span></span><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.6000100000000002em;vertical-align:-0.55001em;"></span><span class="mord"><span class="mord">Λ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault">t</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.801892em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop op-symbol large-op" style="position:relative;top:-0.000004999999999977245em;">⨀</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">o</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mclose">)</span></span></span></span></span></p>
+<h6 id="loss计算"><a class="markdownIt-Anchor" href="#loss计算"></a> loss计算</h6>
+<img src="/2022/12/19/physicalpatches/image-20221219213405796.png" class="" title="image-20221219213405796">
+<h5 id="sensitive-region-localization"><a class="markdownIt-Anchor" href="#sensitive-region-localization"></a> Sensitive Region Localization</h5>
+<p>​	<img src="/2022/12/19/physicalpatches/image-20221219213445110.png" class="" title="image-20221219213445110"></p>
+<p>​	将mask转化为如下的函数：</p>
+<img src="/2022/12/19/physicalpatches/image-20221219213532204.png" class="" title="image-20221219213532204">
+<p>​	同时用tanh来近似：</p>
+<img src="/2022/12/19/physicalpatches/image-20221219213548626.png" class="" title="image-20221219213548626">
+<p>​	同时如上图所示，最终的mask形状可以随意改变。</p>
+<h6 id="loss"><a class="markdownIt-Anchor" href="#loss"></a> loss</h6>
+<img src="/2022/12/19/physicalpatches/image-20221219213608706.png" class="" title="image-20221219213608706">
+<p>​</p>
+<h5 id="总的loss"><a class="markdownIt-Anchor" href="#总的loss"></a> 总的Loss</h5>
+<img src="/2022/12/19/physicalpatches/image-20221219213714956.png" class="" title="image-20221219213714956">
+<h4 id="代码与实验"><a class="markdownIt-Anchor" href="#代码与实验"></a> 代码与实验</h4>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://bfzd233.github.io/2022/12/09/caddn/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -751,7 +846,7 @@ PE_{(pos,2i+1)}=cos(pos/10000^{2i/d_{model}})
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
